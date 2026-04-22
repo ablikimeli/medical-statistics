@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医学统计学教程 | Medical Statistics Guide</title>
+<style>
+:root{--primary:#1a5276;--secondary:#2980b9;--accent:#e74c3c;--success:#27ae60;--warning:#f39c12;--dark:#2c3e50;--light:#ecf0f1;--gray:#7f8c8d}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.8;color:#333;background:#f5f6fa}
+.navbar{position:fixed;top:0;left:0;right:0;background:var(--primary);color:white;padding:12px 24px;z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,0.15);display:flex;justify-content:space-between;align-items:center}
+.navbar h1{font-size:18px;font-weight:600}
+.navbar-links{display:flex;gap:20px}
+.navbar a{color:rgba(255,255,255,0.85);text-decoration:none;font-size:14px;transition:color 0.2s}
+.navbar a:hover{color:white}
+.container{max-width:900px;margin:0 auto;padding:80px 24px 60px}
+.hero{background:linear-gradient(135deg,var(--primary) 0%,var(--secondary) 100%);color:white;padding:60px 40px;border-radius:16px;margin-bottom:40px;text-align:center;box-shadow:0 10px 40px rgba(26,82,118,0.3)}
+.hero h1{font-size:42px;margin-bottom:16px;letter-spacing:2px}
+.hero .subtitle{font-size:20px;opacity:0.95;margin-bottom:30px}
+.hero-meta{display:flex;justify-content:center;gap:30px;font-size:14px;opacity:0.9}
+.hero-badge{background:rgba(255,255,255,0.2);padding:8px 20px;border-radius:20px}
+.toc{background:white;border-radius:12px;padding:30px;margin-bottom:30px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.toc h2{color:var(--primary);margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--light)}
+.toc-list a{display:block;padding:8px 0;color:var(--secondary);text-decoration:none;transition:padding-left 0.2s}
+.toc-list a:hover{padding-left:8px;color:var(--primary)}
+.section{background:white;border-radius:12px;padding:35px;margin-bottom:30px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.section h2{color:var(--primary);font-size:26px;margin-bottom:20px;padding-bottom:12px;border-bottom:3px solid var(--secondary)}
+.section h3{color:var(--dark);font-size:20px;margin:25px 0 15px}
+.section h4{color:var(--secondary);font-size:17px;margin:20px 0 12px}
+.section p{margin:12px 0}
+.section ul,.section ol{padding-left:25px;margin:12px 0}
+.section li{margin:6px 0}
+.info-box{background:linear-gradient(135deg,#ebf5fb,#d4e6f1);border-left:4px solid var(--secondary);padding:18px 22px;border-radius:0 8px 8px 0;margin:20px 0}
+.warning-box{background:linear-gradient(135deg,#fef9e7,#fdebd0);border-left:4px solid var(--warning);padding:18px 22px;border-radius:0 8px 8px 0;margin:20px 0}
+.success-box{background:linear-gradient(135deg,#eafaf1,#d5f5e3);border-left:4px solid var(--success);padding:18px 22px;border-radius:0 8px 8px 0;margin:20px 0}
+.table-wrapper{overflow-x:auto;margin:20px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--primary);color:white;padding:14px 16px;text-align:left;font-weight:600}
+td{padding:12px 16px;border-bottom:1px solid #eee}
+tr:hover{background:#f8f9fa}
+tr:nth-child(even){background:#fafbfc}
+tr:nth-child(even):hover{background:#f5f6fa}
+pre,code{background:#f8f9fa;border-radius:6px;font-family:"SF Mono",Consolas,"Liberation Mono",monospace}
+code{padding:2px 6px;font-size:14px;color:var(--accent)}
+pre{padding:18px;margin:15px 0;overflow-x:auto;border:1px solid #e8e8e8}
+pre code{background:none;padding:0;color:#333}
+.flow-chart{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:25px;margin:20px 0;font-family:monospace}
+.flow-step{background:white;border:2px solid var(--secondary);border-radius:8px;padding:12px 18px;margin:8px 0;font-size:14px}
+.flow-step.sub{border-color:#94a3b8;margin-left:20px}
+.flow-arrow{text-align:center;color:var(--secondary);font-size:18px}
+.footer{text-align:center;padding:40px 20px;color:var(--gray);font-size:14px;border-top:1px solid #eee;margin-top:40px}
+@media(max-width:768px){.hero h1{font-size:28px}.hero .subtitle{font-size:16px}.hero-meta{flex-direction:column;gap:10px}.navbar-links{display:none}.section{padding:20px}.section h2{font-size:22px}}
+html{scroll-behavior:smooth}
+hr{border:none;border-top:1px solid #e2e8f0;margin:40px 0}
+</style>
+</head>
+<body>
+<nav class="navbar">
+<h1>医学统计学教程</h1>
+<div class="navbar-links">
+<a href="#toc">目录</a><a href="#intro">前言</a><a href="#basics">基础</a><a href="#methods">工具</a><a href="#practice">实操</a><a href="#errors">误区</a>
+</div>
+</nav>
+<div class="container">
+<div class="hero">
+<h1>医学统计学教程</h1>
+<p class="subtitle">从基础概念到高级分析方法，系统掌握医学统计分析</p>
+<div class="hero-meta">
+<span class="hero-badge">版本 v1.0</span>
+<span class="hero-badge">2026年4月</span>
+<span class="hero-badge">适用：医学生 / 临床医生 / 研究人员</span>
+</div>
+</div>
+<div class="toc" id="toc">
+<h2>目录导航</h2>
+<div class="toc-list">
+<a href="#intro">前言：核心价值与学习目标</a>
+<a href="#basics">第一部分：统计学基础</a>
+<a href="#basics-1">- 数据类型与核心概念</a>
+<a href="#basics-2">- 研究设计类型</a>
+<a href="#basics-3">- 数据预处理</a>
+<a href="#methods">第二部分：核心统计工具</a>
+<a href="#methods-1">- 描述性统计</a>
+<a href="#methods-2">- 推断性统计</a>
+<a href="#methods-3">- 相关与回归</a>
+<a href="#methods-4">- 生存分析</a>
+<a href="#methods-5">- 高级统计方法</a>
+<a href="#practice">第三部分：工具实操</a>
+<a href="#practice-1">- SPSS操作指南</a>
+<a href="#practice-2">- R语言实战</a>
+<a href="#errors">第四部分：常见错误</a>
+<a href="#summary">第五部分：总结与资源</a>
+</div>
+</div>
+<div class="section" id="intro">
+<h2>前言：核心价值与学习目标</h2>
+<h3>医学统计学的核心价值</h3>
+<p>医学统计学是连接<strong>医学研究</strong>（临床试验、基础实验、流行病学调查）与<strong>科学结论</strong>的桥梁。</p>
+<div class="table-wrapper">
+<table>
+<tr><th>价值维度</th><th>具体体现</th></tr>
+<tr><td>研究设计优化</td><td>样本量估算、随机化分组、对照设置</td></tr>
+<tr><td>数据可靠性保障</td><td>质量控制、偏倚识别、结果验证</td></tr>
+<tr><td>结论外推能力</td><td>从样本推断总体，从现象揭示规律</td></tr>
+<tr><td>临床决策支持</td><td>循证医学、诊疗指南制定</td></tr>
+</table>
+</div>
+<div class="info-box">
+<strong>核心问题：</strong><br>
+"数据如何支撑医学结论？"<br>
+"如何避免数据误导？"
+</div>
+<h3>学习目标</h3>
+<ol>
+<li><strong>概念掌握：</strong>区分数据类型，理解核心统计术语（P值、置信区间）</li>
+<li><strong>工具运用：</strong>根据研究设计和数据类型，匹配正确的统计分析方法</li>
+<li><strong>独立分析：</strong>使用SPSS/R/Stata完成基础统计分析并正确解读结果</li>
+<li><strong>规避错误：</strong>识别并避免常见统计错误</li>
+<li><strong>论文规范：</strong>按照国际标准（STROBE、CONSORT）规范报告统计结果</li>
+</ol>
+</div>
+<div class="section" id="basics">
+<h2>第一部分：统计学基础</h2>
+<h3 id="basics-1">数据类型</h3>
+<h4>计量资料（定量资料）</h4>
+<p><strong>定义：</strong>用连续数值表示的资料，具有计量单位。如身高（cm）、体重（kg）、血压（mmHg）等。</p>
+<div class="table-wrapper">
+<table>
+<tr><th>指标</th><th>单位</th><th>特点</th></tr>
+<tr><td>身高，体重</td><td>cm, kg</td><td>近似正态分布</td></tr>
+<tr><td>血压（收缩压/舒张压）</td><td>mmHg</td><td>近似正态分布</td></tr>
+<tr><td>血糖、血脂</td><td>mmol/L</td><td>可能偏态</td></tr>
+<tr><td>肝功能指标（ALT、AST）</td><td>U/L</td><td>常偏态分布</td></tr>
+</table>
+</div>
+<h4>计数资料（定性资料）</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>类型</th><th>定义</th><th>示例</th><th>编码</th></tr>
+<tr><td>二分类</td><td>只有两个互斥类别</td><td>性别、生死、患病/未患病</td><td>0/1</td></tr>
+<tr><td>无序多分类</td><td>多个互斥类别，无等级关系</td><td>血型（A/B/AB/O）</td><td>1/2/3/4</td></tr>
+<tr><td>有序多分类</td><td>多个类别，存在等级顺序</td><td>疗效（治愈/有效/无效）</td><td>1/2/3</td></tr>
+</table>
+</div>
+<div class="warning-box">
+<strong>注意：</strong>等级资料的统计分析应选用<strong>非参数检验</strong>或专门的有序回归模型，不能简单当作计数资料处理。
+</div>
+<h3 id="basics-2">核心术语</h3>
+<h4>总体与样本</h4>
+<div class="flow-chart">
+<div class="flow-step"><strong>总体 (Population)</strong>：研究者想要推断的全部观察对象的集合<br><span style="color:#7f8c8d;font-size:12px">总体参数（Parameter）：μ, σ, π</span></div>
+<div class="flow-arrow">↓ 抽样</div>
+<div class="flow-step"><strong>样本 (Sample)</strong>：从总体中随机抽取的部分观察对象<br><span style="color:#7f8c8d;font-size:12px">样本统计量（Statistic）：x̄, s, p̂</span></div>
+<div class="flow-arrow">↓ 统计推断</div>
+<div class="flow-step"><strong>用样本统计量推断总体参数</strong></div>
+</div>
+<h4>P值（p-value）</h4>
+<p><strong>定义：</strong>在原假设（H₀）成立的条件下，观测到当前结果或更极端结果的概率。</p>
+<div class="table-wrapper">
+<table>
+<tr><th>P值范围</th><th>结论</th></tr>
+<tr><td>P < 0.05</td><td>拒绝H₀，结果有统计学意义</td></tr>
+<tr><td>P ≥ 0.05</td><td>不拒绝H₀，结果无统计学意义</td></tr>
+<tr><td>P < 0.01</td><td>结果有高度统计学意义</td></tr>
+</table>
+</div>
+<div class="warning-box">
+<strong>重要提醒：</strong>P值不是"效应大小"！P值小不等于效应大，它只说明"结果是否由随机误差引起"。
+</div>
+<h4>置信区间（CI）</h4>
+<p><strong>定义：</strong>包含未知总体参数的概率区间。常用95% CI。</p>
+<div class="info-box">
+<strong>解读示例：</strong><br>
+某降压药使收缩压平均降低 12 mmHg（95% CI: 8-16 mmHg）<br><br>
+解读：有95%的把握认为该降压药使收缩压降低的真正效果在 8-16 mmHg 之间。
+</div>
+<h3 id="basics-3">数据预处理</h3>
+<h4>缺失值处理方法</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>方法</th><th>适用场景</th></tr>
+<tr><td>删除法</td><td>缺失比例<5%，且为随机缺失</td></tr>
+<tr><td>均值填补</td><td>计量资料，整体缺失率低</td></tr>
+<tr><td>回归填补</td><td>有预测变量时</td></tr>
+<tr><td>多重填补</td><td>缺失较多，需保持变异性（MICE算法）</td></tr>
+<tr><td>LOCF</td><td>随访研究，用最后一次观测值填补后续缺失</td></tr>
+</table>
+</div>
+<h4>异常值识别</h4>
+<ul>
+<li><strong>箱线图法：</strong>异常值定义：< Q1 - 1.5×IQR 或 > Q3 + 1.5×IQR</li>
+<li><strong>Z分数法：</strong>|Z| > 3 考虑为异常值（适用于正态分布）</li>
+<li><strong>专业知识判断：</strong>如血压超过300 mmHg为明显错误</li>
+</ul>
+</div>
+<div class="section" id="methods">
+<h2>第二部分：核心统计工具</h2>
+<h3 id="methods-1">描述性统计</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>指标</th><th>公式</th><th>适用条件</th></tr>
+<tr><td>算术均数 x̄</td><td>Σxi/n</td><td>正态或近似正态分布</td></tr>
+<tr><td>几何均数 G</td><td>(x₁·x₂·...·xn)^(1/n)</td><td>等比资料、对数正态分布</td></tr>
+<tr><td>中位数 Md</td><td>位于50%位置的数</td><td>偏态分布、分布未知</td></tr>
+<tr><td>标准差 s</td><td>√[Σ(xi-x̄)²/(n-1)]</td><td>与均数搭配使用</td></tr>
+<tr><td>四分位数间距 IQR</td><td>Q75 - Q25</td><td>与中位数搭配</td></tr>
+</table>
+</div>
+<div class="info-box">
+<strong>报告规范：</strong><br>
+• 正态分布：x̄ ± s（如：168.5 ± 8.3 cm）<br>
+• 偏态分布：M (Q1, Q3)（如：住院8天 (5, 15)）
+</div>
+<h3 id="methods-2">推断性统计——假设检验</h3>
+<h4>假设检验基本步骤</h4>
+<div class="flow-chart">
+<div class="flow-step"><strong>Step 1:</strong> 建立假设<br>H₀: 原假设（无差异）<br>H₁: 备择假设（有差异）</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step"><strong>Step 2:</strong> 确定检验水准<br>α = 0.05（常规）</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step"><strong>Step 3:</strong> 计算检验统计量<br>t值、F值、χ²值、z值等</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step"><strong>Step 4:</strong> 确定P值，作出推断<br>P < α → 拒绝H₀<br>P ≥ α → 不拒绝H₀</div>
+</div>
+<h4>t检验</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>t检验类型</th><th>目的</th><th>适用场景</th></tr>
+<tr><td>单样本t检验</td><td>样本均数与已知总体均数比较</td><td>判断某指标是否与标准值有差异</td></tr>
+<tr><td>两独立样本t检验</td><td>比较两组独立样本的均数差异</td><td>实验组vs对照组</td></tr>
+<tr><td>配对t检验</td><td>比较配对样本的均数差异</td><td>治疗前后、配对设计</td></tr>
+</table>
+</div>
+<h4>卡方检验（χ²检验）</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>检验类型</th><th>用途</th><th>示例</th></tr>
+<tr><td>四格表χ²检验</td><td>两组率的比较</td><td>新药组vs安慰剂组有效率比较</td></tr>
+<tr><td>行×列表χ²检验</td><td>多组率或构成比比较</td><td>三种药物有效率比较</td></tr>
+<tr><td>配对χ²检验</td><td>配对设计的两分类数据</td><td>两种诊断方法的比较</td></tr>
+</table>
+</div>
+<h3 id="methods-3">相关与回归</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>方法</th><th>适用条件</th><th>解读</th></tr>
+<tr><td>Pearson相关（r）</td><td>双变量正态分布计量资料</td><td>|r|<0.3弱；0.3-0.7中；≥0.7强</td></tr>
+<tr><td>Spearman相关（rs）</td><td>不满足正态分布的资料、等级资料</td><td>计算秩次间的Pearson相关系数</td></tr>
+</table>
+</div>
+<div class="info-box">
+<strong>回归方程解读：</strong><br>
+方程：Ŷ = 80 + 0.5X（X为年龄，Y为收缩压）<br>
+解读：年龄每增加1岁，收缩压平均增加0.5 mmHg
+</div>
+<h3 id="methods-4">生存分析</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>方法</th><th>用途</th></tr>
+<tr><td>Kaplan-Meier法</td><td>估计生存率，制作生存曲线</td></tr>
+<tr><td>Log-rank检验</td><td>比较两条或多条生存曲线的差异</td></tr>
+<tr><td>Cox回归</td><td>多因素生存分析，控制混杂因素，计算HR</td></tr>
+</table>
+</div>
+<div class="info-box">
+<strong>HR解读：</strong>HR = 2.5 解读为该因素阳性者的死亡风险是阴性者的2.5倍
+</div>
+<h3 id="methods-5">高级统计方法</h3>
+<h4>Logistic回归</h4>
+<p><strong>方程：</strong>logit(P) = ln[P/(1-P)] = b₀ + b₁X₁ + ... + bpXp</p>
+<div class="table-wrapper">
+<table>
+<tr><th>OR值</th><th>含义</th></tr>
+<tr><td>OR = 1</td><td>无影响</td></tr>
+<tr><td>OR > 1</td><td>危险因素</td></tr>
+<tr><td>OR < 1</td><td>保护因素</td></tr>
+<tr><td>OR的95% CI不包含1</td><td>有统计学意义</td></tr>
+</table>
+</div>
+<h4>诊断试验评价</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>指标</th><th>公式</th><th>含义</th></tr>
+<tr><td>灵敏度</td><td>a/(a+c)</td><td>真阳性率</td></tr>
+<tr><td>特异度</td><td>d/(b+d)</td><td>真阴性率</td></tr>
+<tr><td>假阳性率</td><td>b/(b+d)</td><td>误诊率 = 1-特异度</td></tr>
+<tr><td>假阴性率</td><td>c/(a+c)</td><td>漏诊率 = 1-灵敏度</td></tr>
+</table>
+</div>
+<h4>ROC曲线</h4>
+<div class="table-wrapper">
+<table>
+<tr><th>AUC值</th><th>诊断价值</th></tr>
+<tr><td>0.5-0.7</td><td>较低</td></tr>
+<tr><td>0.7-0.9</td><td>中等</td></tr>
+<tr><td>> 0.9</td><td>较高</td></tr>
+</table>
+</div>
+</div>
+<div class="section" id="practice">
+<h2>第三部分：工具实操</h2>
+<h3 id="practice-1">SPSS实操</h3>
+<h4>常用分析操作</h4>
+<ul>
+<li><strong>描述性统计：</strong>分析 → 描述统计 → 频率/描述</li>
+<li><strong>t检验：</strong>分析 → 比较均值 → 独立样本T检验 / 配对样本T检验</li>
+<li><strong>卡方检验：</strong>分析 → 描述统计 → 交叉表 → 统计量 → 卡方</li>
+<li><strong>Logistic回归：</strong>分析 → 回归 → 二元Logistic</li>
+</ul>
+<div class="info-box">
+<strong>t检验结果解读：</strong><br>
+1. 先看Levene检验P值<br>
+&nbsp;&nbsp;• P > 0.05：用第一行（方差齐）结果<br>
+&nbsp;&nbsp;• P ≤ 0.05：用第二行（方差不齐）结果<br>
+2. 再看t检验P值
+</div>
+<h3 id="practice-2">R语言实战</h3>
+<pre><code># t检验
+t.test(weight ~ group, data = data)           # 独立样本t检验
+t.test(before, after, paired = TRUE)         # 配对t检验
+
+# 卡方检验
+chisq.test(table(data$group, data$outcome))  # 卡方检验
+fisher.test(table(data$group, data$outcome)) # Fisher精确检验
+
+# Logistic回归
+glm(outcome ~ var1 + var2, data = data, family = binomial())</code></pre>
+<div class="table-wrapper">
+<table>
+<tr><th>包名</th><th>功能</th></tr>
+<tr><td>dplyr</td><td>数据操作和整理</td></tr>
+<tr><td>ggplot2</td><td>数据可视化</td></tr>
+<tr><td>survival</td><td>生存分析</td></tr>
+<tr><td>meta</td><td>Meta分析</td></tr>
+<tr><td>pROC</td><td>ROC曲线分析</td></tr>
+</table>
+</div>
+</div>
+<div class="section" id="errors">
+<h2>第四部分：常见错误与注意事项</h2>
+<h3>常见错误类型</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>错误类型</th><th>具体表现</th><th>正确做法</th></tr>
+<tr><td>样本量不足</td><td>未进行样本量估算</td><td>根据效应量、显著性水平、检验效力计算</td></tr>
+<tr><td>方法选择错误</td><td>偏态资料用t检验</td><td>非正态资料用非参数检验</td></tr>
+<tr><td>忽视方差齐性</td><td>方差不齐时仍用t检验</td><td>采用校正t检验或非参数检验</td></tr>
+<tr><td>只报告P值</td><td>仅报告P < 0.05</td><td>同时报告效应量和95% CI</td></tr>
+</table>
+</div>
+<div class="warning-box">
+<strong>P值不等于效应大小！</strong><br><br>
+P值反映的是"如果H₀成立，看到当前数据或更极端数据的概率"，它不能告诉你：<br>
+• 效应有多大<br>
+• 临床是否重要<br>
+• 结果是否可重复
+</div>
+<div class="success-box">
+<strong>正确报告方式：</strong><br>
+降压效果：-12 mmHg（95% CI: -16 to -8 mmHg），P < 0.001<br><br>
+解读：效应量-12mmHg，置信区间不包含0，统计学意义明确
+</div>
+</div>
+<div class="section" id="summary">
+<h2>第五部分：总结与资源</h2>
+<h3>统计方法选择</h3>
+<div class="flow-chart">
+<div class="flow-step sub"><strong>两组独立样本</strong><br>正态+方差齐 → 独立样本t检验<br>非正态/方差不齐 → Mann-Whitney U检验</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step sub"><strong>配对样本</strong><br>正态 → 配对t检验<br>非正态 → Wilcoxon符号秩检验</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step sub"><strong>多组独立样本</strong><br>正态+方差齐 → 单因素ANOVA → Tukey HSD<br>非正态 → Kruskal-Wallis H</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-step sub"><strong>计数资料</strong><br>n≥40，期望值≥5 → χ²检验<br>n<40或期望值<5 → Fisher精确检验</div>
+</div>
+<h3>国际报告规范</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>规范</th><th>适用研究类型</th><th>核心要点</th></tr>
+<tr><td>CONSORT</td><td>随机对照试验</td><td>样本量计算、随机化、盲法、Flow图</td></tr>
+<tr><td>STROBE</td><td>观察性研究</td><td>研究设计、混杂因素报告、统计方法</td></tr>
+<tr><td>PRISMA</td><td>系统评价/Meta分析</td><td>检索策略、筛选流程、证据质量</td></tr>
+<tr><td>STARD</td><td>诊断准确性研究</td><td>ROC曲线、置信区间</td></tr>
+</table>
+</div>
+</div>
+<div class="section">
+<h2>附录：常用公式速查</h2>
+<div class="table-wrapper">
+<table>
+<tr><th>公式</th><th>用途</th></tr>
+<tr><td>t = (x̄ - μ₀)/(s/√n)</td><td>单样本t检验</td></tr>
+<tr><td>F = MS组间/MS组内</td><td>方差分析</td></tr>
+<tr><td>χ² = Σ(O-E)²/E</td><td>卡方检验</td></tr>
+<tr><td>r = Σ(xi-x̄)(yi-ȳ)/√[Σ(xi-x̄)²Σ(yi-ȳ)²]</td><td>Pearson相关</td></tr>
+<tr><td>OR = (a/c)/(b/d) = ad/bc</td><td>优势比</td></tr>
+<tr><td>HR = exp(b)</td><td>Cox回归风险比</td></tr>
+</table>
+</div>
+<h3>样本量估算要点</h3>
+<div class="table-wrapper">
+<table>
+<tr><th>指标</th><th>含义</th><th>常规取值</th></tr>
+<tr><td>α（显著性水平）</td><td>Ⅰ类错误概率</td><td>0.05</td></tr>
+<tr><td>β（Ⅱ类错误概率）</td><td>漏检概率</td><td>0.2（检验效力1-β=0.8）</td></tr>
+<tr><td>δ（效应量）</td><td>期望发现的最小差异</td><td>根据文献或预实验估算</td></tr>
+</table>
+</div>
+</div>
+<div class="footer">
+<p>© 2026 医学统计学教程 | Medical Statistics Guide</p>
+<p>内容参考：孙振球《医学统计学》、方积乾《生物统计学》及国际统计学会相关标准</p>
+</div>
+</div>
+</body>
+</html>
